@@ -232,34 +232,21 @@ class FiberVisualizer:
         # Add new callback to update bearing frequencies table
         @app.callback(
             Output("bearing-frequency-table", "children"),
-            [Input("bearing-frequencies-store", "data")]
+            Input('bearing-frequencies-store', 'data')
         )
         def update_bearing_table(frequencies):
-            if not frequencies:
-                frequencies = global_bearing_frequencies
+            if not frequencies:  # Add error checking
+                return []
+            
+            # Make sure frequencies is a dictionary
+            if isinstance(frequencies, str):
+                return []  # or handle the error appropriately
             
             return [
                 html.Tr([
-                    html.Th("Bearing Frequencies", colSpan=2),
-                ], style={'backgroundColor': '#e9ecef', 'textAlign': 'center'}),
-                *[
-                    html.Tr([
-                        html.Td([
-                            html.Div(style={
-                                'backgroundColor': FREQUENCY_COLORS[name],
-                                'width': '12px',
-                                'height': '12px',
-                                'borderRadius': '50%',
-                                'display': 'inline-block',
-                                'marginRight': '5px'
-                            }),
-                            name
-                        ], style={'fontSize': '11px', 'padding': '4px'}),
-                        html.Td(f"{freq:.2f} Hz", 
-                               style={'fontSize': '11px', 'padding': '4px', 'textAlign': 'right'})
-                    ]) 
-                    for name, freq in frequencies.items()
-                ]
+                    html.Td(name),
+                    html.Td(f"{freq:.3f}")
+                ]) for name, freq in frequencies.items()
             ]
 
         @app.callback(

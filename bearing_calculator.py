@@ -148,22 +148,22 @@ def register_calculator_callbacks(app):
         alpha_rad = math.radians(alpha)
         cos_alpha = math.cos(alpha_rad)
         
-        # Calculate frequencies using formulas from bearing_calculations.md
-        fco = fr/2 * (1 - d/D * cos_alpha)  # Cage relative to outer
-        fci = fr/2 * (1 + d/D * cos_alpha)  # Cage relative to inner
-        fbo = Z * fco  # Ball pass outer
-        fbi = Z * fci  # Ball pass inner
-        fb = D/(2*d) * fr * (1 - (d/D * cos_alpha)**2)  # Rolling element spin
+        # Calculate frequencies using formulas
+        fco = fr/2 * (1 - d/D * cos_alpha)
+        fci = fr/2 * (1 + d/D * cos_alpha)
+        fbo = Z * fco
+        fbi = Z * fci
+        fb = D/(2*d) * fr * (1 - (d/D * cos_alpha)**2)
         
-        # Create new frequencies dictionary
-        new_frequencies = {
-            'Fundamental (fr)': float(fr),  # Ensure all values are float
-            'Cage relative to outer (fc/o)': float(fco),
-            'Cage relative to inner (fc/i)': float(fci),
-            'Ball pass outer (fb/o)': float(fbo),
-            'Ball pass inner (fb/i)': float(fbi),
-            'Rolling element spin (fb)': float(fb)
+        # Create frequencies dictionary
+        frequencies = {
+            'Fundamental (fr)': fr,
+            'Cage relative to outer (fc/o)': fco,
+            'Cage relative to inner (fc/i)': fci,
+            'Ball pass outer (fb/o)': fbo,
+            'Ball pass inner (fb/i)': fbi,
+            'Rolling element spin (fb)': fb
         }
         
-        # Return formatted values for display and the dictionary
-        return [f"{freq:.3f}" for freq in new_frequencies.values()] + [new_frequencies]  # Return the dictionary, not string values
+        # Return formatted values for display AND the raw dictionary for storage
+        return [f"{frequencies[name]:.3f}" for name in FREQUENCY_FORMULAS.keys()] + [frequencies]
