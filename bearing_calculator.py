@@ -157,13 +157,13 @@ def register_calculator_callbacks(app):
         
         # Create new frequencies dictionary
         new_frequencies = {
-            'Fundamental (fr)': fr,
-            'Cage relative to outer (fc/o)': fco,
-            'Cage relative to inner (fc/i)': fci,
-            'Ball pass outer (fb/o)': fbo,
-            'Ball pass inner (fb/i)': fbi,
-            'Rolling element spin (fb)': fb
+            'Fundamental (fr)': float(fr),  # Ensure all values are float
+            'Cage relative to outer (fc/o)': float(fco),
+            'Cage relative to inner (fc/i)': float(fci),
+            'Ball pass outer (fb/o)': float(fbo),
+            'Ball pass inner (fb/i)': float(fbi),
+            'Rolling element spin (fb)': float(fb)
         }
         
-        # Return formatted values for display and the new frequencies dictionary
-        return [f"{freq:.3f}" for freq in new_frequencies.values()] + [new_frequencies]
+        # Return formatted values for display and the dictionary
+        return [f"{freq:.3f}" for freq in new_frequencies.values()] + [new_frequencies]  # Return the dictionary, not string values
